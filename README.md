@@ -25,7 +25,7 @@ CPU Usage: 25%
 Memory Usage: 60%
 Disk Usage: 70%
 
-System Status: Normal
+
 
 >> Future Improvements
 Continuous monitoring (live refresh)
