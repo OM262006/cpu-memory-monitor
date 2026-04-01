@@ -3,26 +3,18 @@ import psutil
 cpu = psutil.cpu_percent(interval=1)
 memory = psutil.virtual_memory().percent
 disk = psutil.disk_usage('/').percent
-
+temp = psutil.sensors_temperatures()
+per_core = psutil.cpu_percent(percpu=True)
 print("CPU Usage:", cpu, "%")
 print("Memory Usage:", memory, "%")
 print("Disk Usage:", disk, "%")
-
-if cpu <= 10:
-    print(" System is idle")
-
-elif cpu <= 60:
-    print(" System is in normal usage")
-
-elif cpu <= 85:
-    print(" System is under high load")
-
+cpu_temp = None
+if "coretemp" in temp:
+    for enter in temp["coretemp"]:
+        if enter.label == "Package id 0":
+            cpu_temp = enter.current
+            break
+if cpu_temp is not None:
+    print("cpu temperature:",cpu_temp,"C")
 else:
-    print(" System is under critical load")
-
-
-if memory > 80:
-    print(" High memory usage")
-
-if disk > 90:
-    print(" Disk almost full")
+    print("cpu temp not found")
